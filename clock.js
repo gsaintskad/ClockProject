@@ -9,6 +9,7 @@ class Clock extends HTMLElement{
         
         //css file connecting
         this.connectCSS(shadow,`@import url('src/styles/clockStyle.css');`);
+        this.connectCSS(shadow,`@import url('src/styles/arrowsStyle.css')`);
         
         
         //clock container creation
@@ -82,20 +83,52 @@ class Clock extends HTMLElement{
             
         }
         const initArrows=shadow=>{
+            this.secondArrow=document.createElement("div");
+            this.secondArrow.classList.add("second_arrow");
 
+            const secondArrowInnerDiv=document.createElement("div");
+            secondArrowInnerDiv.id="secondArrowInnerDiv";
+
+            this.secondArrow.appendChild(secondArrowInnerDiv);
+
+
+            this.minuteArrow=document.createElement("div");
+            this.minuteArrow.classList.add("minute_arrow");
+            
+            const minuteArrowInnerDiv=document.createElement("div");
+            minuteArrowInnerDiv.id="minuteArrowInnerDiv";
+            this.minuteArrow.appendChild(minuteArrowInnerDiv);
+
+
+
+            this.hourArrow=document.createElement("div");
+            this.hourArrow.classList.add("hour_arrow");
+
+            const hourArrowInnerDiv=document.createElement("div");
+            hourArrowInnerDiv.id="hourArrowInnerDiv";
+            
+            this.hourArrow.appendChild(hourArrowInnerDiv);
+
+            
+            
+            const centralElipse=document.createElement("div");
+            centralElipse.classList.add("centralElipse");
+
+
+
+
+
+            clockDiv.appendChild(centralElipse);
+            clockDiv.appendChild(this.secondArrow);     
+            clockDiv.appendChild(this.minuteArrow);
+            clockDiv.appendChild(this.hourArrow);
+ 
         }
 
         initHoursMarkers(shadow);
         initArrows(shadow);
         this.clockContainer.appendChild(clockDiv);
     }
-    
-
-
-
-
-
-
     updateClockState=function(){
         const time=new Date();
      
@@ -108,9 +141,9 @@ class Clock extends HTMLElement{
 
         h = h <= 12 ? h : h - 12;
         this.timeHolder.innerHTML=`${h<10?"0"+h:h}:${m<10?"0"+m:m}:${s<10?"0"+s:s} ${isAM?"AM":"PM"}`;
-        // second_arrow.style.transform = `rotate(${s * 6}deg)`;
-        // minute_arrow.style.transform = `rotate(${m * 6 + s / 10}deg)`;
-        // hour_arrow.style.transform = `rotate(${h * 30 + m / 2}deg)`;
+        this.secondArrow.style.transform = `rotate(${s * 6}deg)`;
+        this.minuteArrow.style.transform = `rotate(${m * 6 + s / 10}deg)`;
+        this.hourArrow.style.transform = `rotate(${h * 30 + m / 2}deg)`;
     }
     runTimer(){
         const run=()=>{
@@ -120,16 +153,16 @@ class Clock extends HTMLElement{
         run();
     }
 }
+export default Clock;
+
+//console.log(customElements.get('custom-clock')??(customElements.define('custom-clock', Clock),"defined succesfully"));
+
+// const clockElement = document.createElement('custom-clock');
 
 
-console.log(customElements.get('custom-clock')??(customElements.define('custom-clock', Clock),"defined succesfully"));
+// document.body.appendChild(clockElement);
 
-const clockElement = document.createElement('custom-clock');
-
-
-document.body.appendChild(clockElement);
-
-clockElement.runTimer();
+// clockElement.runTimer();
 
 // const clockArray=[];
 
